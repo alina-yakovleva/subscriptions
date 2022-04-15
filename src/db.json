@@ -1,0 +1,34 @@
+{
+  "subscriptions": [
+    {
+      "id": 1,
+      "name": "Netflix",
+      "price": 2500,
+      "day": 14
+    },
+    {
+      "id": 2,
+      "name": "Youtube Premium",
+      "price": 3000,
+      "day": 12
+    },
+    {
+      "id": 3,
+      "name": "Figma",
+      "price": 1000,
+      "day": 12
+    },
+    {
+      "id": 4,
+      "name": "Skyeng",
+      "price": 7000,
+      "day": 11
+    },
+    {
+      "id": 5,
+      "name": "Patreon",
+      "price": 1200,
+      "day": 10
+    }
+  ]
+}
