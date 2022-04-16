@@ -4,32 +4,17 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, TextField, Typography } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import * as actions from "./store/actions";
 import Layout from "./components/Layout";
 
 function App() {
-  const rows = [
-    {
-      id: 1,
-      Name: "Netflix",
-      Price: 2500,
-      Date: 23,
-    },
-    {
-      id: 2,
-      Name: "Youtube Premium",
-      Price: 3000,
-      Date: 12,
-    },
-    { id: 3, Name: "Figma", Price: 1000, Date: 12 },
-    { id: 4, Name: "Skyeng", Price: 7000, Date: 11 },
-    { id: 5, Name: "Patreon", Price: 1200, Date: 10 },
-  ];
-
   const columns = [
-    { field: "Name", headerName: "Название", width: 200 },
-    { field: "Price", headerName: "Цена", width: 200 },
-    { field: "Date", headerName: "Дата", width: 200 },
+    { field: "name", headerName: "Название", width: 200 },
+    { field: "price", headerName: "Цена", width: 200 },
+    { field: "day", headerName: "Дата", width: 200 },
     {
       field: "Action",
       headerName: "Действия",
@@ -41,6 +26,14 @@ function App() {
       ],
     },
   ];
+  const subscriptions = useSelector((state) => state.subscriptions);
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.isSubsLoading);
+
+  useEffect(() => {
+    dispatch(actions.getSubsAsync());
+  }, []);
+
   return (
     <Layout>
       <Typography variant="h4">Подписки</Typography>
@@ -64,12 +57,13 @@ function App() {
                 outline: 0,
               },
           }}
-          rows={rows}
+          rows={subscriptions}
           columns={columns}
           pageSize={5}
           rowsPerPageOptions={[5]}
           disableSelectionOnClick
           disableColumnMenu
+          loading={loading}
         />
       </Box>
     </Layout>
