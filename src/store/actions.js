@@ -1,4 +1,10 @@
-import { REMOVE_SUB, SET_SUBS, SET_SUBS_LOADING } from "./constants";
+import {
+  ADD_SUB,
+  EDIT_SUB,
+  REMOVE_SUB,
+  SET_SUBS,
+  SET_SUBS_LOADING,
+} from "./constants";
 import * as api from "../api/subscription";
 
 export const setSubs = (subs) => ({
@@ -34,5 +40,33 @@ export const removeSubAsync = (id) => async (dispatch) => {
     dispatch(removeSub(id));
   } catch {
     alert("Ошибка при удалении");
+  }
+};
+
+export const addSub = (sub) => ({
+  type: ADD_SUB,
+  payload: sub,
+});
+
+export const addSubAsync = (sub) => async (dispatch) => {
+  try {
+    const newsub = await api.addSub(sub);
+    dispatch(addSub(newsub));
+  } catch {
+    alert("Ошибка при добавлении");
+  }
+};
+
+export const editSub = (sub) => ({
+  type: EDIT_SUB,
+  payload: sub,
+});
+
+export const editSubAsync = (id, data) => async (dispatch) => {
+  try {
+    const sub = await api.editSub(id, data);
+    dispatch(editSub(sub));
+  } catch (e) {
+    alert("Не удалось изменить");
   }
 };

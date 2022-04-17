@@ -10,11 +10,13 @@ import { useDispatch, useSelector } from "react-redux";
 import * as actions from "./store/actions";
 import Layout from "./components/Layout";
 import AddDialog from "./components/AddDialog";
+import EditDialog from "./components/EditDialog";
 
 function App() {
   const subscriptions = useSelector((state) => state.subscriptions);
   const loading = useSelector((state) => state.isSubsLoading);
   const dispatch = useDispatch();
+  const [editSub, setEditSub] = useState(null);
 
   const [open, setOpen] = useState(false);
 
@@ -28,6 +30,10 @@ function App() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditSub(null);
   };
 
   const handleClickOpen = () => {
@@ -45,13 +51,23 @@ function App() {
       width: 200,
       getActions: (params) => [
         <GridActionsCellItem
-          icon={<DeleteIcon onClick={() => onRemoveSub(params.row.id)} />}
+          onClick={() => onRemoveSub(params.row.id)}
+          icon={<DeleteIcon />}
         />,
-        <GridActionsCellItem icon={<ModeEditIcon />} />,
+        <GridActionsCellItem
+          onClick={() => setEditSub(params.row)}
+          icon={<ModeEditIcon />}
+        />,
       ],
     },
   ];
+  const onAddSub = (sub) => {
+    dispatch(actions.addSubAsync(sub));
+  };
 
+  const onEditSub = (id, data) => {
+    dispatch(actions.editSubAsync(id, data));
+  };
   return (
     <Layout>
       <Typography variant="h4">Подписки</Typography>
@@ -88,7 +104,13 @@ function App() {
           loading={loading}
         />
       </Box>
-      <AddDialog open={open} onClose={handleClose} />
+      <AddDialog open={open} onSubmit={onAddSub} onClose={handleClose} />
+      <EditDialog
+        open={Boolean(editSub)}
+        data={editSub}
+        onClose={handleCloseEditDialog}
+        onSubmit={onEditSub}
+      />
     </Layout>
   );
 }

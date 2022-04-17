@@ -7,9 +7,9 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-const AddDialog = ({ open, onClose, onSubmit }) => {
+const EditDialog = ({ open, onClose, onSubmit, data }) => {
   const [name, setName] = useState("");
   const [price, setPrice] = useState("");
   const [day, setDay] = useState("");
@@ -21,6 +21,14 @@ const AddDialog = ({ open, onClose, onSubmit }) => {
   const hasDayError = !day || !Number(day) || day > 31 || day < 1;
 
   const hasErrors = hasNameError || hasPriceError || hasDayError;
+
+  useEffect(() => {
+    if (data) {
+      setName(data.name);
+      setPrice(data.price);
+      setDay(data.day);
+    }
+  }, [data]);
 
   const handleReset = () => {
     setName("");
@@ -34,7 +42,7 @@ const AddDialog = ({ open, onClose, onSubmit }) => {
     onClose();
   };
 
-  const onAddSub = () => {
+  const onEditSub = () => {
     setTouched(true);
 
     if (hasErrors) {
@@ -43,13 +51,13 @@ const AddDialog = ({ open, onClose, onSubmit }) => {
 
     const sub = { name, price: Number(price), day: Number(day) };
 
-    onSubmit(sub);
+    onSubmit(data.id, sub);
 
     handleClose();
   };
   return (
     <Dialog open={open} onClose={onClose} fullWidth>
-      <DialogTitle>Добавление подписки</DialogTitle>
+      <DialogTitle>Редактирование подписки</DialogTitle>
       <DialogContent>
         <Stack pt={1} gap={2}>
           <TextField
@@ -80,11 +88,11 @@ const AddDialog = ({ open, onClose, onSubmit }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Отменить</Button>
-        <Button onClick={onAddSub} disabled={isTouched && hasErrors}>
-          Добавить
+        <Button onClick={onEditSub} disabled={isTouched && hasErrors}>
+          Сохранить
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-export default AddDialog;
+export default EditDialog;
