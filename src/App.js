@@ -11,6 +11,18 @@ import * as actions from "./store/actions";
 import Layout from "./components/Layout";
 
 function App() {
+  const subscriptions = useSelector((state) => state.subscriptions);
+
+  const dispatch = useDispatch();
+  const loading = useSelector((state) => state.isSubsLoading);
+
+  useEffect(() => {
+    dispatch(actions.getSubsAsync());
+  }, []);
+
+  const onRemoveSub = (id) => {
+    dispatch(actions.removeSubAsync(id));
+  };
   const columns = [
     { field: "name", headerName: "Название", width: 200 },
     { field: "price", headerName: "Цена", width: 200 },
@@ -21,18 +33,13 @@ function App() {
       type: "actions",
       width: 200,
       getActions: (params) => [
-        <GridActionsCellItem icon={<DeleteIcon />} />,
+        <GridActionsCellItem
+          icon={<DeleteIcon onClick={() => onRemoveSub(params.row.id)} />}
+        />,
         <GridActionsCellItem icon={<ModeEditIcon />} />,
       ],
     },
   ];
-  const subscriptions = useSelector((state) => state.subscriptions);
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.isSubsLoading);
-
-  useEffect(() => {
-    dispatch(actions.getSubsAsync());
-  }, []);
 
   return (
     <Layout>
