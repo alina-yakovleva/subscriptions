@@ -4,17 +4,19 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, TextField, Typography } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as actions from "./store/actions";
 import Layout from "./components/Layout";
+import AddDialog from "./components/AddDialog";
 
 function App() {
   const subscriptions = useSelector((state) => state.subscriptions);
-
-  const dispatch = useDispatch();
   const loading = useSelector((state) => state.isSubsLoading);
+  const dispatch = useDispatch();
+
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     dispatch(actions.getSubsAsync());
@@ -23,10 +25,19 @@ function App() {
   const onRemoveSub = (id) => {
     dispatch(actions.removeSubAsync(id));
   };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const columns = [
     { field: "name", headerName: "Название", width: 200 },
-    { field: "price", headerName: "Цена", width: 200 },
-    { field: "day", headerName: "Дата", width: 200 },
+    { field: "price", headerName: "Стоимость", width: 200 },
+    { field: "day", headerName: "День оплаты", width: 200 },
     {
       field: "Action",
       headerName: "Действия",
@@ -52,7 +63,11 @@ function App() {
         justifyContent="space-between"
       >
         <TextField placeholder="Поиск" size="small" />
-        <Button startIcon={<AddIcon />} variant="contained">
+        <Button
+          onClick={handleClickOpen}
+          startIcon={<AddIcon />}
+          variant="contained"
+        >
           Добавить
         </Button>
       </Box>
@@ -73,6 +88,7 @@ function App() {
           loading={loading}
         />
       </Box>
+      <AddDialog open={open} onClose={handleClose} />
     </Layout>
   );
 }
