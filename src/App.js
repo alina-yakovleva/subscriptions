@@ -4,36 +4,70 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import AddIcon from "@mui/icons-material/Add";
 import { Button, TextField, Typography } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import * as actions from "./store/actions";
 import Layout from "./components/Layout";
+import AddDialog from "./components/AddDialog";
+import EditDialog from "./components/EditDialog";
 
 function App() {
+  const subscriptions = useSelector((state) => state.subscriptions);
+  const loading = useSelector((state) => state.isSubsLoading);
+  const dispatch = useDispatch();
+  const [editSub, setEditSub] = useState(null);
+
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    dispatch(actions.getSubsAsync());
+  }, []);
+
+  const onRemoveSub = (id) => {
+    dispatch(actions.removeSubAsync(id));
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleCloseEditDialog = () => {
+    setEditSub(null);
+  };
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
   const columns = [
     { field: "name", headerName: "Название", width: 200 },
-    { field: "price", headerName: "Цена", width: 200 },
-    { field: "day", headerName: "Дата", width: 200 },
+    { field: "price", headerName: "Стоимость", width: 200 },
+    { field: "day", headerName: "День оплаты", width: 200 },
     {
       field: "Action",
       headerName: "Действия",
       type: "actions",
       width: 200,
       getActions: (params) => [
-        <GridActionsCellItem icon={<DeleteIcon />} />,
-        <GridActionsCellItem icon={<ModeEditIcon />} />,
+        <GridActionsCellItem
+          onClick={() => onRemoveSub(params.row.id)}
+          icon={<DeleteIcon />}
+        />,
+        <GridActionsCellItem
+          onClick={() => setEditSub(params.row)}
+          icon={<ModeEditIcon />}
+        />,
       ],
     },
   ];
-  const subscriptions = useSelector((state) => state.subscriptions);
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.isSubsLoading);
+  const onAddSub = (sub) => {
+    dispatch(actions.addSubAsync(sub));
+  };
 
-  useEffect(() => {
-    dispatch(actions.getSubsAsync());
-  }, []);
-
+  const onEditSub = (id, data) => {
+    dispatch(actions.editSubAsync(id, data));
+  };
   return (
     <Layout>
       <Typography variant="h4">Подписки</Typography>
@@ -45,7 +79,11 @@ function App() {
         justifyContent="space-between"
       >
         <TextField placeholder="Поиск" size="small" />
-        <Button startIcon={<AddIcon />} variant="contained">
+        <Button
+          onClick={handleClickOpen}
+          startIcon={<AddIcon />}
+          variant="contained"
+        >
           Добавить
         </Button>
       </Box>
@@ -66,6 +104,13 @@ function App() {
           loading={loading}
         />
       </Box>
+      <AddDialog open={open} onSubmit={onAddSub} onClose={handleClose} />
+      <EditDialog
+        open={Boolean(editSub)}
+        data={editSub}
+        onClose={handleCloseEditDialog}
+        onSubmit={onEditSub}
+      />
     </Layout>
   );
 }
