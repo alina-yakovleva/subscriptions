@@ -1,28 +1,31 @@
-import { Box } from "@mui/system";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import AddIcon from "@mui/icons-material/Add";
-import { Button, TextField, Typography } from "@mui/material";
-import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import * as actions from "./store/actions";
+import AddIcon from "@mui/icons-material/Add";
+
+import DeleteIcon from "@mui/icons-material/Delete";
+
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+
+import { Button, Box, Typography } from "@mui/material";
+import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
+
 import Layout from "./components/Layout";
 import AddDialog from "./components/AddDialog";
 import EditDialog from "./components/EditDialog";
 
+import * as actions from "./store/actions";
+
+import SearchField from "./components/SearchFirld";
+
 function App() {
   const subscriptions = useSelector((state) => state.subscriptions);
   const loading = useSelector((state) => state.isSubsLoading);
-  const dispatch = useDispatch();
   const [editSub, setEditSub] = useState(null);
 
-  const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(actions.getSubsAsync());
-  }, []);
+  const [open, setOpen] = useState(false);
 
   const onRemoveSub = (id) => {
     dispatch(actions.removeSubAsync(id));
@@ -68,6 +71,7 @@ function App() {
   const onEditSub = (id, data) => {
     dispatch(actions.editSubAsync(id, data));
   };
+
   return (
     <Layout>
       <Typography variant="h4">Подписки</Typography>
@@ -78,7 +82,8 @@ function App() {
         alignItems="center"
         justifyContent="space-between"
       >
-        <TextField placeholder="Поиск" size="small" />
+        <SearchField />
+
         <Button
           onClick={handleClickOpen}
           startIcon={<AddIcon />}
