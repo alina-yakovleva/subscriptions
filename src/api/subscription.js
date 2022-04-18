@@ -1,5 +1,5 @@
-export const getSubs = () =>
-  fetch("http://localhost:3001/subscriptions").then((response) =>
+export const getSubs = (value = "") =>
+  fetch(`http://localhost:3001/subscriptions?q=${value}`).then((response) =>
     response.json()
   );
 

@@ -12,10 +12,10 @@ export const setSubs = (subs) => ({
   payload: subs,
 });
 
-export const getSubsAsync = () => async (dispatch) => {
+export const getSubsAsync = (value) => async (dispatch) => {
   dispatch(setSubsLoading(true));
   try {
-    const subs = await api.getSubs();
+    const subs = await api.getSubs(value);
     dispatch(setSubs(subs));
   } catch (e) {
     alert("Ошибка при выводе списка");
