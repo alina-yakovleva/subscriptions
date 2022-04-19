@@ -1,34 +1,48 @@
 {
+  "users": [
+    {
+      "id": 1,
+      "name": "",
+      "username": "user",
+      "password": "123",
+      "income": 30000
+    }
+  ],
   "subscriptions": [
     {
       "id": 1,
       "name": "Netflix",
       "price": 2500,
-      "day": 14
+      "day": 14,
+      "userId": 1
     },
     {
       "id": 2,
       "name": "Youtube Premium",
       "price": 3000,
-      "day": 12
+      "day": 12,
+      "userId": 1
     },
     {
       "id": 3,
       "name": "Figma",
       "price": 1000,
-      "day": 12
+      "day": 12,
+      "userId": 1
     },
     {
       "id": 4,
       "name": "Skyeng",
       "price": 2000,
-      "day": 11
+      "day": 11,
+      "userId": 1
     },
     {
       "name": "VSCode",
       "price": 1200,
       "day": 21,
-      "id": 5
+      "id": 5,
+      "userId": 1
     }
   ]
 }
