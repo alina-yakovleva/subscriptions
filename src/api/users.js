@@ -1,6 +1,6 @@
 import { baseURL } from "./baseURL";
 
-export const login = (username, password) =>
+export const registr = (username, password) =>
   fetch(`${baseURL}/users`, {
     method: "POST",
     headers: {

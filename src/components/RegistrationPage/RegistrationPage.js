@@ -8,9 +8,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { login } from "../../api/users";
+import { registr } from "../../api/users";
 
-const LoginPage = () => {
+const RegistrationPage = () => {
   const [values, setValues] = useState({
     password: "",
     username: "",
@@ -44,7 +44,7 @@ const LoginPage = () => {
     if (hasErrors) {
       return;
     }
-    login(values.username, values.password).then((data) => console.log(data));
+    registr(values.username, values.password).then((data) => console.log(data));
   };
 
   return (
@@ -55,7 +55,7 @@ const LoginPage = () => {
       width={400}
       m="15% auto 0"
     >
-      <Typography variant="h4">Авторизация</Typography>
+      <Typography variant="h4">Регистрация</Typography>
       <TextField
         value={values.username}
         onChange={handleChange("username")}
@@ -89,20 +89,20 @@ const LoginPage = () => {
         }}
         fullWidth
       />
+      <Button variant="contained" size="large">
+        Войти
+      </Button>
+
       <Button
         onClick={onEditSub}
         disabled={isTouched && hasErrors}
         size="large"
         variant="contained"
       >
-        Войти
-      </Button>
-
-      <Button size="large" variant="contained">
         Зарегистрироваться
       </Button>
     </Box>
   );
 };
 
-export default LoginPage;
+export default RegistrationPage;
