@@ -1,12 +1,12 @@
-import { baseURL } from "./baseURL";
+import { baseURL } from "./config";
 
 export const getSubs = (value = "") =>
-  fetch(`${baseURL}subscriptions?q=${value}`).then((response) =>
+  fetch(`${baseURL}/subscriptions?q=${value}`).then((response) =>
     response.json()
   );
 
 export const deleteSub = (id) =>
-  fetch(`${baseURL}subscriptions/${id}`, {
+  fetch(`${baseURL}/subscriptions/${id}`, {
     method: "DELETE",
   }).then((response) => response.json());
 
