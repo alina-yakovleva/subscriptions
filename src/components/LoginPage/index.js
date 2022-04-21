@@ -8,7 +8,9 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
-import { authorize } from "../../api/users";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { loginAsync } from "../../store/actions";
 
 const LoginPage = () => {
   const [values, setValues] = useState({
@@ -16,8 +18,9 @@ const LoginPage = () => {
     username: "",
     showPassword: false,
   });
-
+  const navigate = useNavigate();
   const [isTouched, setTouched] = useState(false);
+  const dispatch = useDispatch();
 
   const hasUserNameError = !values.username || values.username.length > 8;
   const hasPasswordError = !values.password || values.password.length > 8;
@@ -38,19 +41,16 @@ const LoginPage = () => {
     event.preventDefault();
   };
 
-  const onEditSub = () => {
+  const onLogin = () => {
     setTouched(true);
 
     if (hasErrors) {
       return;
     }
 
-    authorize(values.username, values.password).then(([user]) => {
-      if (!user) {
-        alert("Пользователь не найден");
-      }
-      console.log(user);
-    });
+    dispatch(loginAsync(values.username, values.password)).then(
+      (canRedirect) => canRedirect && navigate("/")
+    );
   };
 
   return (
@@ -61,7 +61,7 @@ const LoginPage = () => {
       width={400}
       m="15% auto 0"
     >
-      <Typography variant="h4">Регистрация</Typography>
+      <Typography variant="h4">Войти</Typography>
       <TextField
         value={values.username}
         onChange={handleChange("username")}
@@ -96,7 +96,7 @@ const LoginPage = () => {
         fullWidth
       />
       <Button
-        onClick={onEditSub}
+        onClick={onLogin}
         disabled={isTouched && hasErrors}
         size="large"
         variant="contained"
@@ -104,7 +104,7 @@ const LoginPage = () => {
         Войти
       </Button>
 
-      <Button size="large" variant="contained">
+      <Button size="large" variant="outlined">
         Зарегистрироваться
       </Button>
     </Box>

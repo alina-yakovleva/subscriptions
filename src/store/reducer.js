@@ -4,11 +4,13 @@ import {
   REMOVE_SUB,
   SET_SUBS,
   SET_SUBS_LOADING,
+  SET_USER,
 } from "./constants";
 
 const initialState = {
   subscriptions: [],
   isSubsLoading: false,
+  user: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,7 +42,9 @@ const reducer = (state = initialState, action) => {
         ),
       };
     }
-
+    case SET_USER: {
+      return { ...state, user: action.payload };
+    }
     default:
       return state;
   }

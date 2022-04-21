@@ -4,8 +4,9 @@ import {
   REMOVE_SUB,
   SET_SUBS,
   SET_SUBS_LOADING,
+  SET_USER,
 } from "./constants";
-import * as api from "../api/subscription";
+import * as api from "../api";
 
 export const setSubs = (subs) => ({
   type: SET_SUBS,
@@ -68,5 +69,27 @@ export const editSubAsync = (id, data) => async (dispatch) => {
     dispatch(editSub(sub));
   } catch (e) {
     alert("Не удалось изменить");
+  }
+};
+
+export const setUser = (user) => ({
+  type: SET_USER,
+  payload: user,
+});
+
+export const loginAsync = (username, password) => async (dispatch) => {
+  try {
+    const [user] = await api.authorize(username, password);
+
+    if (!user) {
+      throw new Error("User is undefiend");
+    }
+
+    dispatch(setUser(user));
+
+    return true;
+  } catch (e) {
+    alert("Неверный логин или пароль");
+    return false;
   }
 };
