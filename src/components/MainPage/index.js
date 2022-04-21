@@ -10,12 +10,12 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import { Button, Box, Typography } from "@mui/material";
 import { DataGrid, GridActionsCellItem } from "@mui/x-data-grid";
 
-import Layout from "./Layout";
-import AddDialog from "./AddDialog";
-import EditDialog from "./EditDialog";
+import Layout from "../Layout";
+import AddDialog from "../AddDialog";
+import EditDialog from "../EditDialog";
 
-import * as actions from "../store/actions";
-import SearchField from "./SearchFirld";
+import * as actions from "../../store/actions";
+import SearchField from "../SearchFirld";
 
 const MainPage = () => {
   const subscriptions = useSelector((state) => state.subscriptions);

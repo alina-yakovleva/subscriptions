@@ -99,7 +99,7 @@ const RegistrationPage = () => {
       >
         Зарегистрироваться
       </Button>
-      <Button variant="contained" size="large">
+      <Button size="large" variant="outlined">
         Войти
       </Button>
     </Box>

@@ -3,7 +3,7 @@ import { Paper } from "@mui/material";
 
 export const Container = styled(Paper)({
   display: "flex",
-  margin: "0 auto",
+  margin: "6% auto 0",
   maxWidth: 1200,
 });
 
