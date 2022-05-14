@@ -1,5 +1,6 @@
 import {
   ADD_SUB,
+  EDIT_INCOME,
   EDIT_SUB,
   REMOVE_SUB,
   SET_SUBS,
@@ -84,12 +85,25 @@ export const loginAsync = (username, password) => async (dispatch) => {
     if (!user) {
       throw new Error("User is undefiend");
     }
-
     dispatch(setUser(user));
 
     return true;
   } catch (e) {
     alert("Неверный логин или пароль");
     return false;
+  }
+};
+export const editIncome = (income) => ({
+  type: EDIT_INCOME,
+  payload: income,
+});
+
+export const editIncomeAsync = (income) => async (dispatch, getState) => {
+  try {
+    const state = getState();
+    const user = await api.editIncome(state.user.id, income);
+    dispatch(setUser(user));
+  } catch (e) {
+    alert("Не удалось изменить");
   }
 };

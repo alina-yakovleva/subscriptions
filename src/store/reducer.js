@@ -1,6 +1,8 @@
 import {
   ADD_SUB,
+  EDIT_INCOME,
   EDIT_SUB,
+  GET_INCOME,
   REMOVE_SUB,
   SET_SUBS,
   SET_SUBS_LOADING,
@@ -44,6 +46,10 @@ const reducer = (state = initialState, action) => {
     }
     case SET_USER: {
       return { ...state, user: action.payload };
+    }
+    case EDIT_INCOME: {
+      const income = action.payload;
+      return { ...state, user: { ...state.user, income } };
     }
     default:
       return state;
