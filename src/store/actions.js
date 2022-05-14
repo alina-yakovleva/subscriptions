@@ -14,10 +14,12 @@ export const setSubs = (subs) => ({
   payload: subs,
 });
 
-export const getSubsAsync = (value) => async (dispatch) => {
+export const getSubsAsync = (value) => async (dispatch, getState) => {
   dispatch(setSubsLoading(true));
   try {
-    const subs = await api.getSubs(value);
+    const state = getState();
+    const userId = state.user.id;
+    const subs = await api.getSubs(userId, value);
     dispatch(setSubs(subs));
   } catch (e) {
     alert("Ошибка при выводе списка");
@@ -50,8 +52,12 @@ export const addSub = (sub) => ({
   payload: sub,
 });
 
-export const addSubAsync = (sub) => async (dispatch) => {
+export const addSubAsync = (sub) => async (dispatch, getState) => {
   try {
+    const userId = getState().user.id;
+
+    sub.userId = userId;
+
     const newsub = await api.addSub(sub);
     dispatch(addSub(newsub));
   } catch {

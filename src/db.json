@@ -5,12 +5,12 @@
       "name": "",
       "username": "user",
       "password": "123",
-      "income": 23000
+      "income": 30000
     },
     {
       "username": "szdzsd",
       "password": "asdasd",
-      "income": 0,
+      "income": 30000,
       "name": "",
       "id": 2
     },
@@ -197,6 +197,13 @@
       "day": 21,
       "id": 5,
       "userId": 1
+    },
+    {
+      "name": "VK",
+      "price": 12000,
+      "day": 12,
+      "userId": 2,
+      "id": 6
     }
   ]
 }

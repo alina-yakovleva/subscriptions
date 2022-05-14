@@ -11,6 +11,7 @@ const SearchField = () => {
   const dispatch = useDispatch();
 
   const isFirstRender = useRef(true);
+
   const getSubs = (value) => {
     dispatch(actions.getSubsAsync(value));
   };
