@@ -2,7 +2,6 @@ import {
   ADD_SUB,
   EDIT_INCOME,
   EDIT_SUB,
-  GET_INCOME,
   REMOVE_SUB,
   SET_SUBS,
   SET_SUBS_LOADING,
@@ -51,6 +50,7 @@ const reducer = (state = initialState, action) => {
       const income = action.payload;
       return { ...state, user: { ...state.user, income } };
     }
+
     default:
       return state;
   }

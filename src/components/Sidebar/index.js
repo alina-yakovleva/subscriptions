@@ -2,7 +2,7 @@ import { Button, Divider } from "@mui/material";
 import { Box } from "@mui/system";
 import { useDispatch, useSelector } from "react-redux";
 
-import { editIncomeAsync, setUser } from "../../store/actions";
+import { editIncomeAsync, setSubs, setUser } from "../../store/actions";
 
 import Chart from "../Chart";
 import Sum from "../Sum";
@@ -17,6 +17,10 @@ const Sidebar = () => {
 
   const sumPrice = subs.reduce((sum, sub) => (sum += sub.price), 0);
 
+  const logout = () => {
+    dispatch(setUser(null));
+    dispatch(setSubs([]));
+  };
   return (
     <Container>
       <Sum
@@ -29,12 +33,7 @@ const Sidebar = () => {
       <Divider />
       <Chart value={[income, sumPrice]} />
       <Box padding={5}>
-        <Button
-          onClick={() => dispatch(setUser(null))}
-          size="normal"
-          variant="contained"
-          fullWidth
-        >
+        <Button onClick={logout} size="normal" variant="contained" fullWidth>
           Выйти
         </Button>
       </Box>
